@@ -2,6 +2,10 @@
 .claude/
 .superpowers/
 
+# Website build
+.site-src/
+site/
+
 # OS
 .DS_Store
 
