@@ -11,7 +11,9 @@
 ## Global Constraints
 
 - **No tracked `.md` file may be modified by the site build.** `AGENT.md`, `scripts/build-bundle.sh`, and the documented `curl` workflow all consume these files directly. All site transformations happen on copies inside `.site-src/`.
-- **Only `.gitignore` is modified.** Every other change is a new file.
+- **The site build modifies nothing.** Tasks 1 to 3 only add files, apart from
+  `.gitignore`. Task 4 edits `README.md` deliberately, as a content change, and
+  proves the generated bundle is unaffected before doing so.
 - **Site URL is exactly** `https://srce.github.io/service_audit/` (trailing slash included).
 - **`service-audit-full.md` is never staged or published.** It duplicates every category page and would split ranking signal.
 - **Heading anchors must match GitHub's slug algorithm**, including the double dash produced by stripping `&`. Six existing cross-references depend on this.
