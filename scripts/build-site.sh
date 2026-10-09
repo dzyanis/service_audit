@@ -21,6 +21,11 @@ cp coverage/*.md "$stage/coverage/"
 cp templates/report.md "$stage/templates/"
 cp site-assets/robots.txt "$stage/"
 
+# LICENSE is not a documentation page, but index.md (from README.md) links to
+# it by relative path. Without a copy here, that link has nothing to resolve
+# to in the staged tree and mkdocs build --strict aborts on the warning.
+cp LICENSE "$stage/"
+
 # README.md becomes the homepage. That rename, plus leaving the generated
 # single-file bundle out of the site, breaks exactly three links. Rewrite only
 # those:

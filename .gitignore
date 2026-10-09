@@ -5,6 +5,7 @@
 # Website build
 .site-src/
 site/
+.venv/
 
 # OS
 .DS_Store

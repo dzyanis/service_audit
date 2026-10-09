@@ -1,0 +1,90 @@
+site_name: Software Project Maturity Assessment
+site_url: https://dzyanis.github.io/service_audit/
+site_description: >-
+  A structured framework for auditing the maturity of a software project. The
+  team sets its own bar for each engineering practice, measures where it stands
+  today, and turns the gap between the two into a scored improvement roadmap.
+site_author: dzyanis
+repo_url: https://github.com/dzyanis/service_audit
+repo_name: dzyanis/service_audit
+edit_uri: ""
+copyright: Licensed CC BY 4.0
+
+docs_dir: .site-src
+site_dir: site
+
+# MkDocs excludes any top-level "templates" directory from the built site by
+# default, reserving that name for custom theme template overrides. The
+# staged tree has a real content page at templates/report.md, so that
+# default exclusion is undone here.
+exclude_docs: |
+  !/templates/
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+
+markdown_extensions:
+  - tables
+  - attr_list
+  - admonition
+  # GitHub's slug algorithm, not Python-Markdown's. Six existing
+  # cross-references use anchors such as #414-dependency-security--updates,
+  # where the double dash is what GitHub leaves behind after stripping the "&".
+  # The default slugifier collapses that to one dash and silently breaks them.
+  # case: lower is required; without it the original capitalisation survives.
+  - toc:
+      permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
+
+validation:
+  links:
+    anchors: warn
+    unrecognized_links: warn
+  nav:
+    omitted_files: warn
+
+nav:
+  - Home: index.md
+  - The Assessment:
+      - Overview and scoring: ASSESSMENT.md
+      - 1. Product & Vision: assessment/01-product-vision.md
+      - 2. Processes & Collaboration: assessment/02-processes-collaboration.md
+      - 3. Architecture & Systems Design: assessment/03-architecture-design.md
+      - 4. Code & Quality: assessment/04-code-quality.md
+      - 5. Engineering Practices & Delivery: assessment/05-practices-delivery.md
+      - 6. Security & Compliance: assessment/06-security-compliance.md
+      - 7. Culture & External Factors: assessment/07-culture.md
+  - Framework coverage:
+      - Overview: coverage/README.md
+      - The Joel Test: coverage/joel-test.md
+      - The Agile Manifesto: coverage/agile-manifesto.md
+      - The Twelve-Factor Methodology: coverage/twelve-factor.md
+      - OWASP SAMM: coverage/opensamm.md
+      - ISO 25010: coverage/iso-25010.md
+  - Running it:
+      - With an LLM agent: AGENT.md
+      - Report template: templates/report.md
+  - Project:
+      - Contributing: CONTRIBUTING.md
+      - Changelog: CHANGELOG.md
