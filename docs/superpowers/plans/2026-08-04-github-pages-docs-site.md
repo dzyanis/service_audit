@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Publish the assessment as a static, Google-indexable website at `https://srce.github.io/service_audit/`, built from the Markdown already in the repository.
+**Goal:** Publish the assessment as a static, Google-indexable website at `https://dzyanis.github.io/service_audit/`, built from the Markdown already in the repository.
 
 **Architecture:** A bash script stages the published Markdown into a gitignored `.site-src/` directory, preserving relative paths so existing `.md` links resolve untouched. MkDocs Material builds that staging directory into `site/`. A GitHub Actions workflow runs the build on every push and pull request, and deploys to Pages from `main`.
 
@@ -14,7 +14,7 @@
 - **The site build modifies nothing.** Tasks 1 to 3 only add files, apart from
   `.gitignore`. Task 4 edits `README.md` deliberately, as a content change, and
   proves the generated bundle is unaffected before doing so.
-- **Site URL is exactly** `https://srce.github.io/service_audit/` (trailing slash included).
+- **Site URL is exactly** `https://dzyanis.github.io/service_audit/` (trailing slash included).
 - **`service-audit-full.md` is never staged or published.** It duplicates every category page and would split ranking signal.
 - **Heading anchors must match GitHub's slug algorithm**, including the double dash produced by stripping `&`. Six existing cross-references depend on this.
 - **Bash scripts follow the existing convention** in `scripts/build-bundle.sh`: `#!/usr/bin/env bash`, `set -euo pipefail`, `cd "$(dirname "$0")/.."`, a leading comment block explaining the file's purpose.
@@ -110,7 +110,7 @@ echo "== link rewrites =="
 assert_not_grep .site-src/index.md '](service-audit-full.md)' \
   'bundle link no longer relative'
 assert_grep .site-src/index.md \
-  '](https://raw.githubusercontent.com/srce/service_audit/main/service-audit-full.md)' \
+  '](https://raw.githubusercontent.com/dzyanis/service_audit/main/service-audit-full.md)' \
   'bundle link points at the raw URL'
 assert_not_grep .site-src/index.md '](assessment/)' \
   'assessment directory link rewritten'
@@ -153,7 +153,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 stage=".site-src"
-raw_base="https://raw.githubusercontent.com/srce/service_audit/main"
+raw_base="https://raw.githubusercontent.com/dzyanis/service_audit/main"
 
 rm -rf "$stage"
 mkdir -p "$stage/assessment" "$stage/coverage" "$stage/templates"
@@ -214,7 +214,7 @@ The staging script copies `site-assets/robots.txt`, so it must exist for Step 6 
 User-agent: *
 Allow: /
 
-Sitemap: https://srce.github.io/service_audit/sitemap.xml
+Sitemap: https://dzyanis.github.io/service_audit/sitemap.xml
 ```
 
 - [ ] **Step 6: Run the test to verify it passes**
@@ -283,14 +283,14 @@ assert_file site/assessment/04-code-quality/index.html
 assert_file site/coverage/agile-manifesto/index.html
 
 echo "== search engine artefacts =="
-assert_grep site/sitemap.xml 'https://srce.github.io/service_audit/' \
+assert_grep site/sitemap.xml 'https://dzyanis.github.io/service_audit/' \
   'sitemap uses the canonical site URL'
 assert_grep site/index.html \
-  '<link rel="canonical" href="https://srce.github.io/service_audit/"' \
+  '<link rel="canonical" href="https://dzyanis.github.io/service_audit/"' \
   'homepage declares a canonical URL'
 assert_grep site/index.html 'name="description"' \
   'homepage carries a meta description'
-assert_grep site/robots.txt 'Sitemap: https://srce.github.io/service_audit/sitemap.xml' \
+assert_grep site/robots.txt 'Sitemap: https://dzyanis.github.io/service_audit/sitemap.xml' \
   'robots.txt advertises the sitemap'
 assert_grep site/assessment/01-product-vision/index.html \
   '<title>1. Product &amp; Vision' \
@@ -325,14 +325,14 @@ Create `mkdocs.yml`:
 
 ```yaml
 site_name: Software Project Maturity Assessment
-site_url: https://srce.github.io/service_audit/
+site_url: https://dzyanis.github.io/service_audit/
 site_description: >-
   A structured framework for auditing the maturity of a software project. The
   team sets its own bar for each engineering practice, measures where it stands
   today, and turns the gap between the two into a scored improvement roadmap.
-site_author: srce
-repo_url: https://github.com/srce/service_audit
-repo_name: srce/service_audit
+site_author: dzyanis
+repo_url: https://github.com/dzyanis/service_audit
+repo_name: dzyanis/service_audit
 edit_uri: ""
 copyright: Licensed CC BY 4.0
 
@@ -457,7 +457,7 @@ Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `requirements-docs.txt`, `scripts/test-site.sh`, and the `site/` directory produced by Task 2.
-- Produces: a published site at `https://srce.github.io/service_audit/`.
+- Produces: a published site at `https://dzyanis.github.io/service_audit/`.
 
 - [ ] **Step 1: Write the workflow**
 
@@ -558,8 +558,8 @@ These cannot be done from the workflow and must be reported, not silently skippe
 
 1. Push the branch and merge to `main`.
 2. GitHub: Settings > Pages > Build and deployment > Source: **GitHub Actions**. Without this the deploy job fails.
-3. Confirm the site loads at `https://srce.github.io/service_audit/`.
-4. Google Search Console: add `https://srce.github.io/service_audit/` as a URL-prefix property, verify it, and submit `sitemap.xml`. Indexing takes days to weeks.
+3. Confirm the site loads at `https://dzyanis.github.io/service_audit/`.
+4. Google Search Console: add `https://dzyanis.github.io/service_audit/` as a URL-prefix property, verify it, and submit `sitemap.xml`. Indexing takes days to weeks.
 
 ---
 
@@ -593,7 +593,7 @@ In `README.md`, immediately after the `**Spec version: 0.1.1**` line, insert a
 blank line and:
 
 ```markdown
-Read it on the web: **<https://srce.github.io/service_audit/>**
+Read it on the web: **<https://dzyanis.github.io/service_audit/>**
 ```
 
 - [ ] **Step 3: Verify the site still builds**

@@ -6,7 +6,7 @@ Status: approved for planning
 ## Goal
 
 Publish the assessment as a browsable, searchable, Google-indexable website at
-`https://srce.github.io/service_audit/`, built from the Markdown already in the
+`https://dzyanis.github.io/service_audit/`, built from the Markdown already in the
 repository.
 
 Today the content is readable only as Markdown on github.com or as a raw file.
@@ -78,7 +78,7 @@ nothing else:
 
 | In | From | To |
 |---|---|---|
-| `index.md` | `](service-audit-full.md)` | `](https://raw.githubusercontent.com/srce/service_audit/main/service-audit-full.md)` |
+| `index.md` | `](service-audit-full.md)` | `](https://raw.githubusercontent.com/dzyanis/service_audit/main/service-audit-full.md)` |
 | `index.md` | `](assessment/)` | `](ASSESSMENT.md)` |
 | `index.md` | `](coverage/)` | `](coverage/README.md)` |
 
@@ -148,7 +148,7 @@ rather than content work:
 - **Pre-rendered static HTML.** Every word is in the served markup. Nothing
   depends on client-side rendering, so indexing does not wait on Google's
   render queue.
-- **`site_url`** set to `https://srce.github.io/service_audit/`. MkDocs uses it
+- **`site_url`** set to `https://dzyanis.github.io/service_audit/`. MkDocs uses it
   to emit `sitemap.xml` automatically, and Material emits a
   `<link rel="canonical">` on every page. The canonical tag matters here
   specifically: it tells Google to prefer these pages over the github.com blob

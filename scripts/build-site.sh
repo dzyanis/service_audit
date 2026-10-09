@@ -7,7 +7,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 stage=".site-src"
-raw_base="https://raw.githubusercontent.com/srce/service_audit/main"
+raw_base="https://raw.githubusercontent.com/dzyanis/service_audit/main"
 
 rm -rf "$stage"
 mkdir -p "$stage/assessment" "$stage/coverage" "$stage/templates"

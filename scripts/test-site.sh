@@ -54,7 +54,7 @@ echo "== link rewrites =="
 assert_not_grep .site-src/index.md '](service-audit-full.md)' \
   'bundle link no longer relative'
 assert_grep .site-src/index.md \
-  '](https://raw.githubusercontent.com/srce/service_audit/main/service-audit-full.md)' \
+  '](https://raw.githubusercontent.com/dzyanis/service_audit/main/service-audit-full.md)' \
   'bundle link points at the raw URL'
 assert_not_grep .site-src/index.md '](assessment/)' \
   'assessment directory link rewritten'

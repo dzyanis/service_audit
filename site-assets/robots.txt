@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://srce.github.io/service_audit/sitemap.xml
+Sitemap: https://dzyanis.github.io/service_audit/sitemap.xml
