@@ -41,8 +41,8 @@ This is a self-assessment, not a grade. It measures a project against the bar th
 
 1. Read [ASSESSMENT.md](ASSESSMENT.md): the index, scoring scales, and links to the seven category files in [assessment/](assessment/).
 2. Run the assessment:
-   - **Manually:** walk the categories with your team and fill in [templates/report.md](templates/report.md).
-   - **With an LLM:** give your AI assistant [AGENT.md](AGENT.md) and the `assessment/` files; it interviews the team one question at a time and produces the report.
+    - **Manually:** walk the categories with your team and fill in [templates/report.md](templates/report.md).
+    - **With an LLM:** give your AI assistant [AGENT.md](AGENT.md) and the `assessment/` files; it interviews the team one question at a time and produces the report.
 3. Re-run it periodically (e.g. every 6–12 months) with the same spec version to track progress.
 
 ## Versioning
@@ -62,6 +62,37 @@ How this assessment covers each framework is documented point-by-point in [cover
 - [ISO 25010 Software Quality Model](https://iso25000.com/en/iso-25000-standards/iso-25010) ([coverage](coverage/iso-25010.md))
 
 Planned mappings (DORA/Accelerate, AWS Well-Architected, CMMI, SPACE) are tracked in [the `area:coverage` issues](https://github.com/dzyanis/service_audit/issues?q=is%3Aissue+is%3Aopen+label%3Aarea%3Acoverage).
+
+## Website development
+
+The documentation website is built from the existing Markdown without changing
+the source files. From the repository root, create an isolated environment and
+install the fully pinned build toolchain:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-docs.txt
+export PATH="$PWD/.venv/bin:$PATH"
+```
+
+Build the site into `site/`, run all verification checks, or preview it locally:
+
+```bash
+./scripts/build-site.sh
+./scripts/test-site.sh
+./scripts/build-site.sh --stage-only && mkdocs serve
+```
+
+The preview is available at <http://127.0.0.1:8000/>. Run the staging command
+again after editing source Markdown. To update the dependency lock after
+changing
+[requirements-docs.in](https://github.com/dzyanis/service_audit/blob/main/requirements-docs.in):
+
+```bash
+.venv/bin/python -m pip install "pip==25.3" "pip-tools==7.5.2"
+.venv/bin/python -m piptools compile --strip-extras \
+  --output-file requirements-docs.txt requirements-docs.in
+```
 
 ## Roadmap
 

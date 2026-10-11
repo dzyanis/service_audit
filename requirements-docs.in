@@ -1,0 +1,5 @@
+# Direct dependencies for the documentation website. Regenerate the fully
+# pinned requirements-docs.txt file with the command documented in README.md.
+mkdocs==1.6.1
+mkdocs-material==9.7.7
+pymdown-extensions==10.21.3

@@ -107,6 +107,58 @@ assert_grep site/assessment/01-product-vision/index.html \
   'id="18-compliance--legal-requirements"' \
   '1.8 anchor keeps the double dash GitHub produces'
 
+echo "== homepage instruction list =="
+if python3 - <<'PY'
+from html.parser import HTMLParser
+from pathlib import Path
+
+html = Path("site/index.html").read_text(encoding="utf-8")
+section = html.split('<h2 id="how-to-use-it">', 1)[1].split("<h2", 1)[0]
+
+
+class ListShape(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.stack = []
+        self.root_ol_depth = None
+        self.root_items = 0
+        self.nested_lists = 0
+        self.nested_items = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "ol" and self.root_ol_depth is None:
+            self.root_ol_depth = len(self.stack)
+        elif self.root_ol_depth is not None:
+            if tag == "li" and self.stack[-1:] == ["ol"]:
+                self.root_items += 1
+            elif tag == "ul" and self.stack[-1:] == ["li"]:
+                self.nested_lists += 1
+            elif tag == "li" and self.stack[-1:] == ["ul"]:
+                self.nested_items += 1
+        self.stack.append(tag)
+
+    def handle_endtag(self, tag):
+        if self.stack and self.stack[-1] == tag:
+            self.stack.pop()
+
+
+shape = ListShape()
+shape.feed(section)
+actual = (shape.root_items, shape.nested_lists, shape.nested_items)
+expected = (3, 1, 2)
+if actual != expected:
+    raise SystemExit(
+        "expected 3 numbered steps containing one 2-item nested list; "
+        f"found {actual[0]} numbered steps, {actual[1]} nested lists, "
+        f"and {actual[2]} nested items"
+    )
+PY
+then
+  echo "ok   - homepage renders 3 numbered steps with 2 nested options"
+else
+  echo "FAIL - homepage instruction list nesting"; fail=1
+fi
+
 if [[ $fail -ne 0 ]]; then
   echo; echo "site verification FAILED"; exit 1
 fi
