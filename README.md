@@ -9,7 +9,7 @@ A structured framework for auditing the maturity of a software project. The team
 **With a coding agent (Claude Code, Cursor, etc.):**
 
 ```bash
-git clone https://github.com/srce/service_audit.git
+git clone https://github.com/dzyanis/service_audit.git
 cd service_audit
 claude "Read AGENT.md and run the assessment interview with me"
 ```
@@ -20,7 +20,7 @@ repository and point it at this checkout's `AGENT.md`.
 **With a web chat (claude.ai, ChatGPT, etc.):** attach [service-audit-full.md](service-audit-full.md), the whole assessment in one file, to a conversation and say "Run this assessment with me." To download it directly:
 
 ```bash
-curl -O https://raw.githubusercontent.com/srce/service_audit/main/service-audit-full.md
+curl -O https://raw.githubusercontent.com/dzyanis/service_audit/main/service-audit-full.md
 ```
 
 The agent interviews your team one question at a time and produces a report you can keep next to your repo and compare against future runs.
@@ -41,8 +41,8 @@ This is a self-assessment, not a grade. It measures a project against the bar th
 
 1. Read [ASSESSMENT.md](ASSESSMENT.md): the index, scoring scales, and links to the seven category files in [assessment/](assessment/).
 2. Run the assessment:
-   - **Manually:** walk the categories with your team and fill in [templates/report.md](templates/report.md).
-   - **With an LLM:** give your AI assistant [AGENT.md](AGENT.md) and the `assessment/` files; it interviews the team one question at a time and produces the report.
+    - **Manually:** walk the categories with your team and fill in [templates/report.md](templates/report.md).
+    - **With an LLM:** give your AI assistant [AGENT.md](AGENT.md) and the `assessment/` files; it interviews the team one question at a time and produces the report.
 3. Re-run it periodically (e.g. every 6–12 months) with the same spec version to track progress.
 
 ## Versioning
@@ -61,17 +61,48 @@ How this assessment covers each framework is documented point-by-point in [cover
 - [OWASP SAMM (OpenSAMM)](https://owaspsamm.org/) ([coverage](coverage/opensamm.md))
 - [ISO 25010 Software Quality Model](https://iso25000.com/en/iso-25000-standards/iso-25010) ([coverage](coverage/iso-25010.md))
 
-Planned mappings (DORA/Accelerate, AWS Well-Architected, CMMI, SPACE) are tracked in [the `area:coverage` issues](https://github.com/srce/service_audit/issues?q=is%3Aissue+is%3Aopen+label%3Aarea%3Acoverage).
+Planned mappings (DORA/Accelerate, AWS Well-Architected, CMMI, SPACE) are tracked in [the `area:coverage` issues](https://github.com/dzyanis/service_audit/issues?q=is%3Aissue+is%3Aopen+label%3Aarea%3Acoverage).
+
+## Website development
+
+The documentation website is built from the existing Markdown without changing
+the source files. From the repository root, create an isolated environment and
+install the fully pinned build toolchain:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-docs.txt
+export PATH="$PWD/.venv/bin:$PATH"
+```
+
+Build the site into `site/`, run all verification checks, or preview it locally:
+
+```bash
+./scripts/build-site.sh
+./scripts/test-site.sh
+./scripts/build-site.sh --stage-only && mkdocs serve
+```
+
+The preview is available at <http://127.0.0.1:8000/>. Run the staging command
+again after editing source Markdown. To update the dependency lock after
+changing
+[requirements-docs.in](https://github.com/dzyanis/service_audit/blob/main/requirements-docs.in):
+
+```bash
+.venv/bin/python -m pip install "pip==25.3" "pip-tools==7.5.2"
+.venv/bin/python -m piptools compile --strip-extras \
+  --output-file requirements-docs.txt requirements-docs.in
+```
 
 ## Roadmap
 
-Planned work lives in [GitHub issues](https://github.com/srce/service_audit/issues),
+Planned work lives in [GitHub issues](https://github.com/dzyanis/service_audit/issues),
 grouped by area label and by release milestone:
 
-- [`area:adoption`](https://github.com/srce/service_audit/issues?q=is%3Aissue+is%3Aopen+label%3Aarea%3Aadoption): worked examples, a lite profile, scoring tools
-- [`area:content`](https://github.com/srce/service_audit/issues?q=is%3Aissue+is%3Aopen+label%3Aarea%3Acontent): item wording and overlap, plus new items and questions for the next release
-- [`area:coverage`](https://github.com/srce/service_audit/issues?q=is%3Aissue+is%3Aopen+label%3Aarea%3Acoverage): mappings to other frameworks
-- [`area:tooling`](https://github.com/srce/service_audit/issues?q=is%3Aissue+is%3Aopen+label%3Aarea%3Atooling): scripts, CI, releases, repo admin
+- [`area:adoption`](https://github.com/dzyanis/service_audit/issues?q=is%3Aissue+is%3Aopen+label%3Aarea%3Aadoption): worked examples, a lite profile, scoring tools
+- [`area:content`](https://github.com/dzyanis/service_audit/issues?q=is%3Aissue+is%3Aopen+label%3Aarea%3Acontent): item wording and overlap, plus new items and questions for the next release
+- [`area:coverage`](https://github.com/dzyanis/service_audit/issues?q=is%3Aissue+is%3Aopen+label%3Aarea%3Acoverage): mappings to other frameworks
+- [`area:tooling`](https://github.com/dzyanis/service_audit/issues?q=is%3Aissue+is%3Aopen+label%3Aarea%3Atooling): scripts, CI, releases, repo admin
 
 Issues labelled `spec-change` alter the assessment items themselves and ship as a
 MINOR or MAJOR release. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose
